@@ -25,7 +25,7 @@ namespace TrashCollection.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employee.Where(c => c.IdentityUserId == userId).FirstOrDefault();
-            var applicationDbContext = _context.Employee.Include(e => e.Address).Include(e => e.IdentityUser).Include(e => e.ManageService);
+            var applicationDbContext = _context.Employee.Include(e => e.Address).Include(e => e.IdentityUser)/*.Include(e => e.ManageService)*/;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -40,7 +40,7 @@ namespace TrashCollection.Controllers
             var employee = await _context.Employee
                 .Include(e => e.Address)
                 .Include(e => e.IdentityUser)
-                .Include(e => e.ManageService)
+                //.Include(e => e.ManageService)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (employee == null)
             {
@@ -55,7 +55,7 @@ namespace TrashCollection.Controllers
         {
             ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Id");
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["ServiceId"] = new SelectList(_context.Set<ManageService>(), "ServiceId", "ServiceId");
+            //ViewData["ServiceId"] = new SelectList(_context.Set<ManageService>(), "ServiceId", "ServiceId");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace TrashCollection.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdentityUserId,AddressId,ServiceId,FirstName,LastName")] Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,IdentityUserId,AddressId,/*ServiceId,*/FirstName,LastName")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace TrashCollection.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Id", employee.AddressId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
-            ViewData["ServiceId"] = new SelectList(_context.Set<ManageService>(), "ServiceId", "ServiceId", employee.ServiceId);
+            //ViewData["ServiceId"] = new SelectList(_context.Set<ManageService>(), "ServiceId", "ServiceId", employee.ServiceId);
             return View(employee);
         }
 
@@ -95,7 +95,7 @@ namespace TrashCollection.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Id", employee.AddressId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
-            ViewData["ServiceId"] = new SelectList(_context.Set<ManageService>(), "ServiceId", "ServiceId", employee.ServiceId);
+            //ViewData["ServiceId"] = new SelectList(_context.Set<ManageService>(), "ServiceId", "ServiceId", employee.ServiceId);
             return View(employee);
         }
 
@@ -104,7 +104,7 @@ namespace TrashCollection.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdentityUserId,AddressId,ServiceId,FirstName,LastName")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IdentityUserId,AddressId,/*ServiceId,*/FirstName,LastName")] Employee employee)
         {
             if (id != employee.Id)
             {
@@ -133,7 +133,7 @@ namespace TrashCollection.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Id", employee.AddressId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
-            ViewData["ServiceId"] = new SelectList(_context.Set<ManageService>(), "ServiceId", "ServiceId", employee.ServiceId);
+            //ViewData["ServiceId"] = new SelectList(_context.Set<ManageService>(), "ServiceId", "ServiceId", employee.ServiceId);
             return View(employee);
         }
 
@@ -148,7 +148,7 @@ namespace TrashCollection.Controllers
             var employee = await _context.Employee
                 .Include(e => e.Address)
                 .Include(e => e.IdentityUser)
-                .Include(e => e.ManageService)
+                //.Include(e => e.ManageService)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (employee == null)
             {
