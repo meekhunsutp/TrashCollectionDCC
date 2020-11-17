@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,6 +23,8 @@ namespace TrashCollection.Controllers
         // GET: Employee
         public async Task<IActionResult> Index()
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.Where(c => c.IdentityUserId == userId).FirstOrDefault();
             var applicationDbContext = _context.Employee.Include(e => e.Address).Include(e => e.IdentityUser).Include(e => e.ManageService);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -65,6 +68,8 @@ namespace TrashCollection.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                employee.IdentityUserId = userId;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
