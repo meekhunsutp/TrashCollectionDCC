@@ -21,10 +21,15 @@ namespace TrashCollection.Models
         public int AddressId { get; set; }
         public Address Address { get; set; }
 
+        [ForeignKey("ManageService")]
+        public int ServiceId { get; set; }
+        public ManageService ManageService { get; set; }
+
 
         public string Email { get; set; }
         public string FirstName  { get; set; }
         public string LastName { get; set; }
+        public double AccountBalance { get; set; }
 
     }
 }
