@@ -29,6 +29,5 @@ namespace TrashCollection.Data
         public DbSet<TrashCollection.Models.Customer> Customer { get; set; }
         public DbSet<TrashCollection.Models.Address> Address { get; set; }
         public DbSet<TrashCollection.Models.Employee> Employee { get; set; }
-        public DbSet<TrashCollection.Models.ManageService> ManageService { get; set; }
     }
 }
