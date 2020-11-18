@@ -10,6 +10,9 @@ namespace TrashCollection.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<Employee> Employee { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -19,15 +22,9 @@ namespace TrashCollection.Data
             base.OnModelCreating(builder);
             builder.Entity<IdentityRole>()
                 .HasData(
-                new IdentityRole
-                        {
-                          Name = "Admin",
-                          NormalizedName = "ADMIN"
-                        }
-                );
+                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN"},
+                new IdentityRole { Name = "Employee", NormalizedName = "EMPLOYEE"},
+                new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER"});
         }
-        public DbSet<TrashCollection.Models.Customer> Customer { get; set; }
-        public DbSet<TrashCollection.Models.Address> Address { get; set; }
-        public DbSet<TrashCollection.Models.Employee> Employee { get; set; }
     }
 }

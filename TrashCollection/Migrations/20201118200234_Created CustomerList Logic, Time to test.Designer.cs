@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashCollection.Data;
 
 namespace TrashCollection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201118200234_Created CustomerList Logic, Time to test")]
+    partial class CreatedCustomerListLogicTimetotest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,24 +50,10 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3523d995-f540-4946-872a-5d371c9131e9",
-                            ConcurrencyStamp = "dd8ade3a-d845-4bd2-8678-7283bb9ffef5",
+                            Id = "2c950e21-241f-470e-979c-302027a20ffa",
+                            ConcurrencyStamp = "d6039ddc-c224-4bff-a605-f6bd0b6d90e2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "5e489e61-f403-4345-bd3c-d53a1422dd6e",
-                            ConcurrencyStamp = "6205e215-f17f-4be5-bb4b-30cf2164d7b7",
-                            Name = "Employee",
-                            NormalizedName = "EMPLOYEE"
-                        },
-                        new
-                        {
-                            Id = "804aa1eb-75f2-4a05-b8cc-20b915c7048a",
-                            ConcurrencyStamp = "00cfff60-c4e1-4a8e-8d60-2927fe286350",
-                            Name = "Customer",
-                            NormalizedName = "CUSTOMER"
                         });
                 });
 
