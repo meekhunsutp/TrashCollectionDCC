@@ -29,6 +29,7 @@ namespace TrashCollection.Controllers
             {
                 return RedirectToAction("Create");
             }
+            var workForToday = TodaysCustomers(employee);
             var applicationDbContext = _context.Employee.Include(e => e.Address).Include(e => e.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -175,34 +176,77 @@ namespace TrashCollection.Controllers
 
         ////////GARBAGE LOGIC
         
-        //Need to be able to select day from list to show work for that day
-        public async Task<IActionResult> WorkforToday() //List of customers that need pick ups today (DEFAULT VIEW)
-        {
+        ////Need to be able to select day from list to show work for that day
+        //public async Task<IActionResult> WorkforToday() //List of customers that need pick ups today (DEFAULT VIEW)
+        //{
 
+        //}
+        private List<Customer> TodaysCustomers(Employee employee)        //Add customers to this list if their trash should be picked up today, run the conditional checks
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            employee.IdentityUserId = userId;
+            List<Customer> TodaysCustomersList = new List<Customer>();
+            TodaysCustomersList = ZipCheck(employee, TodaysCustomersList);
+            TodaysCustomersList = CollectionDayCheck(TodaysCustomersList);
+            TodaysCustomersList = ExtraPickUpCheck(TodaysCustomersList);
+            TodaysCustomersList = AlreadyPickedUpCheck(TodaysCustomersList);
+            TodaysCustomersList = SuspensionCheck(TodaysCustomersList);
+            return TodaysCustomersList;
         }
-        private List<Customer> TodaysCustomers()        //Add customers to this list if their trash should be picked up today, run the conditional checks
+        private List<Customer> ZipCheck(Employee employee, List<Customer> customers)        //check to see if they are in workers zip code, if so add
         {
-
+            foreach(Customer customer in _context.Customer)
+            {
+                if (customer.Address.Zip >= employee.Address.Zip - 2 && customer.Address.Zip <= employee.Address.Zip + 2)
+                {
+                    customers.Add(customer);
+                }
+            }
+            return customers;
         }
-        private List<Customer> ZipCheck()        //check to see if they are in workers zip code, if so add
+        private List<Customer> CollectionDayCheck(List<Customer> customers)        //check to see if customer pick up day matches today, if so add
         {
-
+            foreach( Customer customer in customers)
+            {
+                if( customer.CollectionDay != DateTime.Today.DayOfWeek)
+                {
+                    customers.Remove(customer);
+                }
+            }
+            return customers;
         }
-        private List<Customer> CollectionDayCheck()        //check to see if customer pick up day matches today, if so add
+        private List<Customer> ExtraPickUpCheck(List<Customer> customers)        //check to see if customer has an extra pick up, if so add
         {
-
+            foreach (Customer customer in customers)
+            {
+                if (customer.ExtraPickUp.Equals(DateTime.Today.Date)) // Check .Date
+                {
+                    customers.Add(customer);
+                }
+            }
+            return customers;
         }
-        private List<Customer> ExtraPickUpCheck()        //check to see if customer has an extra pick up, if so add
+        private List<Customer> AlreadyPickedUpCheck(List<Customer> customers)        //check to see if trash has already been picked up, if so remove
         {
-
+            foreach (Customer customer in customers)
+            {
+                if (customer.CustomerConfirmPickUp == true)
+                {
+                    customers.Remove(customer);
+                }
+            }
+            return customers;
         }
-        private List<Customer> AlreadyPickedUpCheck()        //check to see if trash has already been picked up, if so remove
+        private List<Customer> SuspensionCheck(List<Customer> customers)        //check to see if customer is on pause, if so remove
         {
-
-        }
-        private List<Customer> SuspensionCheck()        //check to see if customer is on pause, if so remove
-        {
-
+            foreach(Customer customer in customers)
+            {
+                if( customer.SuspendServiceStart?.CompareTo(DateTime.Today.Date) >= 0 && customer.SuspendServiceEnd?.CompareTo(DateTime.Today.Date) <= 0)
+                {
+                    customers.Remove(customer);
+                }
+            }
+            return customers;
         }
         public async Task<IActionResult> ConfirmPickUp(int? id) //button to call this function per customer, button can only be clicked once, confirmed by customer button?
         {
