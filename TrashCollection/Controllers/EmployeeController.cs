@@ -25,6 +25,10 @@ namespace TrashCollection.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employee.Where(c => c.IdentityUserId == userId).FirstOrDefault();
+            if ( employee == null)
+            {
+                return RedirectToAction("Create");
+            }
             var applicationDbContext = _context.Employee.Include(e => e.Address).Include(e => e.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -167,6 +171,52 @@ namespace TrashCollection.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employee.Any(e => e.Id == id);
+        }
+
+        ////////GARBAGE LOGIC
+        
+        //Need to be able to select day from list to show work for that day
+        public async Task<IActionResult> WorkforToday() //List of customers that need pick ups today (DEFAULT VIEW)
+        {
+
+        }
+        private List<Customer> TodaysCustomers()        //Add customers to this list if their trash should be picked up today, run the conditional checks
+        {
+
+        }
+        private List<Customer> ZipCheck()        //check to see if they are in workers zip code, if so add
+        {
+
+        }
+        private List<Customer> CollectionDayCheck()        //check to see if customer pick up day matches today, if so add
+        {
+
+        }
+        private List<Customer> ExtraPickUpCheck()        //check to see if customer has an extra pick up, if so add
+        {
+
+        }
+        private List<Customer> AlreadyPickedUpCheck()        //check to see if trash has already been picked up, if so remove
+        {
+
+        }
+        private List<Customer> SuspensionCheck()        //check to see if customer is on pause, if so remove
+        {
+
+        }
+        public async Task<IActionResult> ConfirmPickUp(int? id) //button to call this function per customer, button can only be clicked once, confirmed by customer button?
+        {
+            var customer = _context.Customer.Where(c => c.Id == id).FirstOrDefault();
+            AddToBalance(customer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        private static void AddToBalance(Customer customer)
+        {
+            if(customer.CustomerConfirmPickUp == true)
+            {
+                customer.AccountBalance += 25;
+            }
         }
     }
 }

@@ -25,6 +25,10 @@ namespace TrashCollection.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            if(customer == null)
+            {
+                return RedirectToAction("Create");
+            }
             var applicationDbContext = _context.Customer.Include(c => c.Address).Include(c => c.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -167,5 +171,7 @@ namespace TrashCollection.Controllers
         {
             return _context.Customer.Any(e => e.Id == id);
         }
+
+
     }
 }
