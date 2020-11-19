@@ -56,14 +56,10 @@ namespace TrashCollection.Controllers
         // GET: Customer/Create
         public IActionResult Create()
         {
-            ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id");
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+
             return View();
         }
 
-        // POST: Customer/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Customer customer)
@@ -76,8 +72,6 @@ namespace TrashCollection.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", customer.AddressId);
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
             return View(customer);
         }
 
@@ -94,14 +88,9 @@ namespace TrashCollection.Controllers
             {
                 return NotFound();
             }
-            ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", customer.AddressId);
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
             return View(customer);
         }
 
-        // POST: Customer/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Customer customer)
@@ -131,8 +120,6 @@ namespace TrashCollection.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", customer.AddressId);
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
             return View(customer);
         }
 
@@ -171,7 +158,5 @@ namespace TrashCollection.Controllers
         {
             return _context.Customer.Any(e => e.Id == id);
         }
-
-
     }
 }

@@ -29,7 +29,7 @@ namespace TrashCollection.Controllers
             {
                 return RedirectToAction("Create");
             }
-            var workForToday = TodaysCustomers(employee, dateSelected);
+            //var workForToday = TodaysCustomers(employee, dateSelected);
             var applicationDbContext = _context.Employee.Include(e => e.Address).Include(e => e.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -60,17 +60,14 @@ namespace TrashCollection.Controllers
         // GET: Employee/Create
         public IActionResult Create()
         {
-            ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Id");
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+
             return View();
         }
 
-        // POST: Employee/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdentityUserId,AddressId,FirstName,LastName")] Employee employee)
+        public async Task<IActionResult> Create(Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -80,8 +77,6 @@ namespace TrashCollection.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Id", employee.AddressId);
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
             return View(employee);
         }
 
@@ -98,17 +93,12 @@ namespace TrashCollection.Controllers
             {
                 return NotFound();
             }
-            ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Id", employee.AddressId);
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
             return View(employee);
         }
 
-        // POST: Employee/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdentityUserId,AddressId,FirstName,LastName")] Employee employee)
+        public async Task<IActionResult> Edit(int id, Employee employee)
         {
             if (id != employee.Id)
             {
@@ -135,8 +125,6 @@ namespace TrashCollection.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Id", employee.AddressId);
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
             return View(employee);
         }
 
@@ -176,14 +164,7 @@ namespace TrashCollection.Controllers
             return _context.Employee.Any(e => e.Id == id);
         }
 
-        ////////GARBAGE LOGIC
-
-        ////Need to be able to select day from list to show work for that day
-        //public async Task<IActionResult> WorkforToday() //List of customers that need pick ups today (DEFAULT VIEW)
-        //{
-
-        //}
-        private List<Customer> TodaysCustomers(Employee employee, DateTime dateSelected)        //Add customers to this list if their trash should be picked up today, run the conditional checks
+        private List<Customer> TodaysCustomers(Employee employee, DateTime dateSelected)        
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             employee.IdentityUserId = userId;
@@ -191,15 +172,22 @@ namespace TrashCollection.Controllers
                 c.Address.Zip == employee.Address.Zip
                 && c.CustomerConfirmPickUp == false 
                 && (c.CollectionDay == dateSelected.DayOfWeek || c.ExtraPickUp == dateSelected)
-                && (c.SuspendServiceStart < dateSelected && c.SuspendServiceEnd > dateSelected)).ToList();
-
-
-            //&& c.SuspendServiceStart?.Date.CompareTo(DateTime.Today.Date) < 0)
-            //&& c.SuspendServiceEnd?.Date.CompareTo(DateTime.Today.Date) > 0).ToList();
-
-
-            //TodaysCustomersList = SuspensionCheck(TodaysCustomersList);
+                && (c.SuspendServiceStart <= dateSelected && c.SuspendServiceEnd >= dateSelected)).ToList();
             return TodaysCustomersList;
+        }
+        public async Task<IActionResult> ConfirmPickUp(int? id) //button to call this function per customer, button can only be clicked once, confirmed by customer button?
+        {
+            var customer = _context.Customer.Where(c => c.Id == id).FirstOrDefault();
+            AddToBalance(customer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        private static void AddToBalance(Customer customer)
+        {
+            if(customer.CustomerConfirmPickUp == true)
+            {
+                customer.AccountBalance += 25;
+            }
         }
         //private List<Customer> ZipCheck(Employee employee, List<Customer> customers)        //check to see if they are in workers zip code, if so add
         //{
@@ -256,19 +244,5 @@ namespace TrashCollection.Controllers
         //    }
         //    return customers;
         //}
-        public async Task<IActionResult> ConfirmPickUp(int? id) //button to call this function per customer, button can only be clicked once, confirmed by customer button?
-        {
-            var customer = _context.Customer.Where(c => c.Id == id).FirstOrDefault();
-            AddToBalance(customer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        private static void AddToBalance(Customer customer)
-        {
-            if(customer.CustomerConfirmPickUp == true)
-            {
-                customer.AccountBalance += 25;
-            }
-        }
     }
 }
