@@ -5,9 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>ManageServices</h1>
+<h1>Manage Services</h1>
 
-<h4>Customer</h4>
+<h4>Please select your collection day preference below.</h4>
+<h4>You may also request an additional pick up or suspend your services for a period of time.</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,23 +21,23 @@
             <input type="hidden" asp-for="LastName" />
             @Html.DisplayNameFor(model => model.AccountBalance)
             <div class="form-group">
-                <label asp-for="CollectionDay" class="control-label"></label>
+                <label asp-for="CollectionDay" class="control-label"></label><br>
                 <select asp-for="CollectionDay" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>
                 <span asp-validation-for="CollectionDay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ExtraPickUp" class="control-label"></label>
-                <input asp-for="ExtraPickUp" class="form-control" />
+                <input asp-for="ExtraPickUp" class="form-control" style="width: 100px"/>
                 <span asp-validation-for="ExtraPickUp" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SuspendServiceStart" class="control-label"></label>
-                <input asp-for="SuspendServiceStart" class="form-control" />
+                <input asp-for="SuspendServiceStart" class="form-control" style="width: 100px"/>
                 <span asp-validation-for="SuspendServiceStart" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SuspendServiceEnd" class="control-label"></label>
-                <input asp-for="SuspendServiceEnd" class="form-control" />
+                <input asp-for="SuspendServiceEnd" class="form-control" style="width: 100px"/>
                 <span asp-validation-for="SuspendServiceEnd" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,7 +48,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back Profile</a>
+    <a asp-action="Details">Back to Profile</a>
 </div>
 
 @section Scripts {

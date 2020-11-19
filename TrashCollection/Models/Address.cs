@@ -12,13 +12,13 @@ namespace TrashCollection.Models
         public int Id { get; set; }
 
         [Display(Name = "Street Address")]
-
         public string StreetAddress { get; set; }
+
         [Display(Name = "City, State")]
-
         public string CityState { get; set; }
+        
+        [Required]
         [Display(Name = "Zip Code")]
-
         public int Zip { get; set; }
 
 

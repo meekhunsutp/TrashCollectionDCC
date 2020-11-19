@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -21,19 +22,23 @@ namespace TrashCollection.Models
         public int AddressId { get; set; }
         public Address Address { get; set; }
 
+        [Required]
         [Display(Name = "First Name")]
         public string FirstName  { get; set; }
 
+        [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Balance Due")]
+        [Display(Name = "Balance Due: ")]
         [DisplayFormat(NullDisplayText = "Current", DataFormatString = "{0:c}")]
+        [DefaultValue(0)]
         public double? AccountBalance { get; set; }
 
         [Display(Name = "Confirm Pick Up")]
         public bool CustomerConfirmPickUp { get; set; }
 
+        [Required]
         [Display(Name = "Select Collection Day")]
         public DayOfWeek CollectionDay { get; set; }
 
