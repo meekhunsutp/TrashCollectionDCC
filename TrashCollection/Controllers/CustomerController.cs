@@ -24,7 +24,7 @@ namespace TrashCollection.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var customer = _context.Customer.Include(e => e.Address).Where(c => c.IdentityUserId == userId).SingleOrDefault();
             if(customer == null)
             {
                 return RedirectToAction("Create");
@@ -64,35 +64,29 @@ namespace TrashCollection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Customer customer)
         {
-            if (ModelState.IsValid)
-            {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 customer.IdentityUserId = userId;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(ManageServices));
-            }
-            return RedirectToAction(nameof(ManageServices));
+                return RedirectToAction("ManageServices", new { customer.Id });
         }
-        public IActionResult ManageServices()
+        public async Task<IActionResult> ManageServices(int id)
         {
-
-            return View();
+            var customer = await _context.Customer.FindAsync(id);
+            return View(customer);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ManageServices(Customer customer)
+        public async Task<IActionResult> ManageServices(int? id, Customer customer)
         {
-            if (ModelState.IsValid)
+            if (id != customer.Id)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                customer.IdentityUserId = userId;
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            return RedirectToAction(nameof(Details));
+            _context.Customer.Update(customer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { customer.Id });       
         }
 
         // GET: Customer/Edit/5

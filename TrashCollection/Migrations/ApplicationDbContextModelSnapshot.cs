@@ -48,22 +48,22 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ae37a850-b9a8-49f9-ab96-9cc065ebc8f6",
-                            ConcurrencyStamp = "6df93358-cd54-47f9-9f9d-8a5f7a9dd38b",
+                            Id = "236309fd-8f5b-42ec-8f6e-10d5e7d93848",
+                            ConcurrencyStamp = "e23c5f78-4786-40fe-b91c-1b8065b44bb9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "da77cbbb-4004-47e7-9c8f-952266604834",
-                            ConcurrencyStamp = "4e3973e1-dd60-4a6d-b4fb-8a6488642d69",
+                            Id = "34de8aee-17cb-47af-beff-6de70c4f3b08",
+                            ConcurrencyStamp = "1a898a60-5669-4390-82d5-03d84d5d7e27",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "6ea0fa99-43c4-40eb-ae90-c251e0450910",
-                            ConcurrencyStamp = "18fa7d47-f4cd-4432-9ba8-d8ccdea63fb2",
+                            Id = "21c588df-77ce-408a-8fbd-c4fe3d0e88dd",
+                            ConcurrencyStamp = "b63b6164-9bb0-41e6-87a4-1fbb5862d0bf",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
