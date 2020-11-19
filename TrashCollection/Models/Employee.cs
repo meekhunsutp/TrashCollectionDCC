@@ -23,7 +23,7 @@ namespace TrashCollection.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DayOfWeek CollectionDay { get; set; }
+        public DateTime CollectionDay { get; set; }
 
     }
 }
