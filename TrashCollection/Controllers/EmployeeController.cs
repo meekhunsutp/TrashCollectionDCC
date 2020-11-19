@@ -69,15 +69,11 @@ namespace TrashCollection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
         {
-            if (ModelState.IsValid)
-            {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 employee.IdentityUserId = userId;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(employee);
+            return RedirectToAction("Details", new { employee.Id });
         }
 
         // GET: Employee/Edit/5

@@ -132,7 +132,7 @@ namespace TrashCollection.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details");
             }
             return View(customer);
         }
@@ -165,7 +165,7 @@ namespace TrashCollection.Controllers
             var customer = await _context.Customer.FindAsync(id);
             _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Create");
         }
 
         private bool CustomerExists(int id)
