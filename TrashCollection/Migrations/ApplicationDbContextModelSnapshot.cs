@@ -48,22 +48,22 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "236309fd-8f5b-42ec-8f6e-10d5e7d93848",
-                            ConcurrencyStamp = "e23c5f78-4786-40fe-b91c-1b8065b44bb9",
+                            Id = "dad2bdd5-c1bb-4f7c-b688-90191cf6066b",
+                            ConcurrencyStamp = "242a17dd-9ae7-43ed-9a08-f6b1d73eb146",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "34de8aee-17cb-47af-beff-6de70c4f3b08",
-                            ConcurrencyStamp = "1a898a60-5669-4390-82d5-03d84d5d7e27",
+                            Id = "b618743f-f11c-41cb-beef-a2f1a938ef40",
+                            ConcurrencyStamp = "953150ac-3ec5-4472-9afe-397207a2a6d5",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "21c588df-77ce-408a-8fbd-c4fe3d0e88dd",
-                            ConcurrencyStamp = "b63b6164-9bb0-41e6-87a4-1fbb5862d0bf",
+                            Id = "17752a9f-04fe-45f8-b586-763979879061",
+                            ConcurrencyStamp = "8ff28577-e1a3-4367-8004-77d9add9b1d4",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -282,12 +282,14 @@ namespace TrashCollection.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("SuspendServiceEnd")
