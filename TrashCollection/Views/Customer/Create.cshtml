@@ -7,7 +7,7 @@
 
 <h1>Customer Information</h1>
 
-<h4>Please fill in your details below.</h4>
+<h6>Please fill in your details below.</h6>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Address.Zip" class="control-label"></label>
-                <input asp-for="Address.Zip" class="form-control" maxlength="5"/>
+                <input asp-for="Address.Zip" class="form-control" maxlength="5" style="width: 100px"/>
                 <span asp-validation-for="Address.Zip" class="text-danger"></span>
             </div>
 
