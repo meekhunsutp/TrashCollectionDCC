@@ -70,9 +70,29 @@ namespace TrashCollection.Controllers
                 customer.IdentityUserId = userId;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ManageServices));
+            }
+            return RedirectToAction(nameof(ManageServices));
+        }
+        public IActionResult ManageServices()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ManageServices(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                customer.IdentityUserId = userId;
+                _context.Add(customer);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return RedirectToAction(nameof(Details));
         }
 
         // GET: Customer/Edit/5

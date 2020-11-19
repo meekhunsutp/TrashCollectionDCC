@@ -7,20 +7,14 @@
 
 <h1>Create</h1>
 
-<h4>Customer</h4>
+<h4>Customer Profile</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdentityUserId" class="control-label"></label>
-                <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddressId" class="control-label"></label>
-                <select asp-for="AddressId" class ="form-control" asp-items="ViewBag.AddressId"></select>
-            </div>
+            <input type="hidden" asp-for="IdentityUserId" />
+            <input type="hidden" asp-for="AddressId" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -32,16 +26,31 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AccountBalance" class="control-label"></label>
-                <input asp-for="AccountBalance" class="form-control" />
-                <span asp-validation-for="AccountBalance" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="CustomerConfirmPickUp" /> @Html.DisplayNameFor(model => model.CustomerConfirmPickUp)
-                </label>
+                <label asp-for="Address.StreetAddress" class="control-label"></label>
+                <input asp-for="Address.StreetAddress" class="form-control" />
+                <span asp-validation-for="Address.StreetAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Address.CityState" class="control-label"></label>
+                <input asp-for="Address.CityState" class="form-control" />
+                <span asp-validation-for="Address.CityState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.Zip" class="control-label"></label>
+                <input asp-for="Address.Zip" class="form-control" />
+                <span asp-validation-for="Address.Zip" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="AccountBalance" class="control-label"></label>
+            <input asp-for="AccountBalance" class="form-control" />
+            <span asp-validation-for="AccountBalance" class="text-danger"></span>
+        </div>*@
+            @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="CustomerConfirmPickUp" /> @Html.DisplayNameFor(model => model.CustomerConfirmPickUp)
+            </label>
+        </div>*@
+            @*<div class="form-group">
                 <label asp-for="CollectionDay" class="control-label"></label>
                 <select asp-for="CollectionDay" class="form-control"></select>
                 <span asp-validation-for="CollectionDay" class="text-danger"></span>
@@ -60,7 +69,7 @@
                 <label asp-for="SuspendServiceEnd" class="control-label"></label>
                 <input asp-for="SuspendServiceEnd" class="form-control" />
                 <span asp-validation-for="SuspendServiceEnd" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

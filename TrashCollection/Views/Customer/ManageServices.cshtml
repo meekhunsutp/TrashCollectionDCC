@@ -1,0 +1,53 @@
+﻿@model TrashCollection.Models.Customer
+
+@{
+    ViewData["Title"] = "ManageServices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>ManageServices</h1>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ManageServices">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="IdentityUserId" />
+            <input type="hidden" asp-for="AddressId" />
+            @Html.DisplayNameFor(model => model.AccountBalance)
+        <div class="form-group">
+            <label asp-for="CollectionDay" class="control-label"></label>
+            <select asp-for="CollectionDay" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>            
+            <span asp-validation-for="CollectionDay" class="text-danger"></span>
+        </div>
+            <div class="form-group">
+                <label asp-for="ExtraPickUp" class="control-label"></label>
+                <input asp-for="ExtraPickUp" class="form-control" />
+                <span asp-validation-for="ExtraPickUp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuspendServiceStart" class="control-label"></label>
+                <input asp-for="SuspendServiceStart" class="form-control" />
+                <span asp-validation-for="SuspendServiceStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuspendServiceEnd" class="control-label"></label>
+                <input asp-for="SuspendServiceEnd" class="form-control" />
+                <span asp-validation-for="SuspendServiceEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back Profile</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
