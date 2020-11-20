@@ -37,8 +37,13 @@
     <span asp-validation-for="CollectionDay" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <input type="button" value="View Customers" onclick="location.href='@Url.Action("Index", "Employee")'" />
+    <input type="button" value="View Customers" onclick="location.href='@Url.Action("SelectDate", "Employee")'" />
 </div>
+<input type="hidden" asp-for="Id" />
+<input type="hidden" asp-for="IdentityUserId" />
+<input type="hidden" asp-for="AddressId" />
+<input type="hidden" asp-for="FirstName" />
+<input type="hidden" asp-for="LastName" />
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

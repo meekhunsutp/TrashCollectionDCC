@@ -29,30 +29,29 @@ namespace TrashCollection.Controllers
             {
                 return RedirectToAction("Create");
             }
-            //var workForToday = TodaysCustomers(employee, dateSelected);
-            var applicationDbContext = _context.Employee.Include(e => e.Address).Include(e => e.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var workForToday = TodaysCustomers(employee, employee.CollectionDay.Date);
+            //var applicationDbContext = _context.Employee.Include(e => e.Address).Include(e => e.IdentityUser);
+            return RedirectToAction("FindWork", new { employee.Id });
         }
 
-
-
-        // GET: Employee/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> FindWork(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var employee = await _context.Employee
                 .Include(e => e.Address)
                 .Include(e => e.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            ViewBag.EmployeeId = employee.Id;
+            var workForToday = TodaysCustomers(employee, employee.CollectionDay.Date);
+            return View(workForToday);
+        }
 
+        // GET: Employee/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            var employee = await _context.Employee
+                .Include(e => e.Address)
+                .Include(e => e.IdentityUser)
+                .FirstOrDefaultAsync(m => m.Id == id);
             return View(employee);
         }
 
@@ -96,32 +95,12 @@ namespace TrashCollection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Employee employee)
         {
-            if (id != employee.Id)
-            {
-                return NotFound();
-            }
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            employee.IdentityUserId = userId;
+            _context.Update(employee);
+            await _context.SaveChangesAsync();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmployeeExists(employee.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(employee);
+            return RedirectToAction("FindWork", new { employee.Id });
         }
 
         // GET: Employee/Delete/5
@@ -166,9 +145,10 @@ namespace TrashCollection.Controllers
             employee.IdentityUserId = userId;
             List<Customer> TodaysCustomersList = _context.Customer.Where(c =>
                 c.Address.Zip == employee.Address.Zip
-                && c.CustomerConfirmPickUp == false 
+                && c.CustomerConfirmPickUp == false
                 && (c.CollectionDay == dateSelected.DayOfWeek || c.ExtraPickUp == dateSelected)
-                && (c.SuspendServiceStart <= dateSelected && c.SuspendServiceEnd >= dateSelected)).ToList();
+                && ((c.SuspendServiceStart > dateSelected || c.SuspendServiceStart == null)
+                || (c.SuspendServiceEnd < dateSelected || c.SuspendServiceEnd == null))).ToList();
             return TodaysCustomersList;
         }
         public async Task<IActionResult> ConfirmPickUp(int? id) //button to call this function per customer, button can only be clicked once, confirmed by customer button?
