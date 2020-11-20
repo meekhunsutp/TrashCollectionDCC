@@ -27,6 +27,7 @@ namespace TrashCollection.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Select Date")]
         [DataType(DataType.Date)]
         public DateTime CollectionDay { get; set; }
 

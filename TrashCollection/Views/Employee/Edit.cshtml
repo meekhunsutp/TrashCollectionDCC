@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit Collection Date</h1>
+<h3>Job Query</h3>
 
 <hr />
 <div class="row">
@@ -19,7 +19,7 @@
             <input type="hidden" asp-for="LastName" />
             @*<input type="hidden" asp-for="Address.Zip" />*@
             <div class="form-group">
-                <h9>Confirm Zip Code</h9>
+                <h9>Enter Zip Code</h9>
                 <input asp-for="Address.Zip" class="form-control" maxlength="5" />
                 <span asp-validation-for="Address.Zip" class="text-danger"></span>
             </div>

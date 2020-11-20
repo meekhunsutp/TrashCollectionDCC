@@ -160,9 +160,10 @@ namespace TrashCollection.Controllers
         }
         private static void AddToBalance(Customer customer)
         {
-            if(customer.CustomerConfirmPickUp == true)
+            if(customer.CustomerConfirmPickUp == false)
             {
                 customer.AccountBalance += 25;
+                customer.CustomerConfirmPickUp = true;
             }
         }
         //private List<Customer> ZipCheck(Employee employee, List<Customer> customers)        //check to see if they are in workers zip code, if so add

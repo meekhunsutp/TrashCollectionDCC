@@ -30,16 +30,16 @@ namespace TrashCollection.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Balance Due: ")]
+        [Display(Name = "Balance Due")]
         [DisplayFormat(NullDisplayText = "Current", DataFormatString = "{0:c}")]
         [DefaultValue(0)]
-        public double? AccountBalance { get; set; }
+        public double AccountBalance { get; set; }
 
         [Display(Name = "Confirm Pick Up")]
         public bool CustomerConfirmPickUp { get; set; }
 
         [Required]
-        [Display(Name = "Select Collection Day")]
+        [Display(Name = "Collection Day")]
         public DayOfWeek CollectionDay { get; set; }
 
         [Display(Name = "Request Extra Pick Up Date")]

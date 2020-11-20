@@ -5,10 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Work For</h1>
+<h3>WORK FOR SELECTED DATE</h3>
+
 
 <p>
-    <a asp-controller="Employee" asp-route-id="@ViewBag.EmployeeId"asp-action="Edit">Select Date</a>
+    <a asp-controller="Employee" asp-route-id="@ViewBag.EmployeeId" asp-action="Edit">SELECT DIFFERENT DATE HERE</a>
 </p>
 <table class="table">
     <thead>
@@ -72,7 +73,7 @@
                     @Html.DisplayFor(modelItem => item.AccountBalance)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CustomerConfirmPickUp)
+                    <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="ConfirmPickUp">CONFIRM PICK UP</a>
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
