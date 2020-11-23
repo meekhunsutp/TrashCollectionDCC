@@ -41,6 +41,8 @@ namespace TrashCollection.Controllers
                 .Include(e => e.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             ViewBag.EmployeeId = employee.Id;
+            ViewBag.DateSelected = employee.CollectionDay.ToShortDateString();
+            ViewBag.Date = employee.CollectionDay.Date;
             var workForToday = TodaysCustomers(employee, employee.CollectionDay.Date);
             return View(workForToday);
         }
@@ -97,7 +99,6 @@ namespace TrashCollection.Controllers
         {
             _context.Entry(employee).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-
             return RedirectToAction("FindWork", new { employee.Id });
         }
 
@@ -149,9 +150,13 @@ namespace TrashCollection.Controllers
                 || (c.SuspendServiceEnd < dateSelected || c.SuspendServiceEnd == null))).ToList();
             return TodaysCustomersList;
         }
-        public async Task<IActionResult> ConfirmPickUp(int? id) //button to call this function per customer, button can only be clicked once, confirmed by customer button?
+        public async Task<IActionResult> ConfirmPickUp(int? id) 
         {
             var customer = _context.Customer.Where(c => c.Id == id).FirstOrDefault();
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var employee = _context.Employee.Where(c => c.IdentityUserId ==
+            //userId).SingleOrDefault();
+            //if(employee.CollectionDay != )
             AddToBalance(customer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

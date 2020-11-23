@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>WORK FOR SELECTED DATE</h3>
+<h3>WORK FOR @ViewBag.DateSelected</h3>
 
 
 <p>
@@ -73,7 +73,10 @@
                     @Html.DisplayFor(modelItem => item.AccountBalance)
                 </td>
                 <td>
+                    @if(DateTime.Now.Date == ViewBag.Date)
+                    {
                     <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="ConfirmPickUp">CONFIRM PICK UP</a>
+                    }
                 </td>
                 @*<td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
