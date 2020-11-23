@@ -7,12 +7,10 @@ namespace TrashCollection.ActionFilters
     public class GlobalRouting : IActionFilter
     {
         private readonly ClaimsPrincipal _claimsPrincipal;
-
         public GlobalRouting(ClaimsPrincipal claimsPrincipal)
         {
             _claimsPrincipal = claimsPrincipal;
         }
-
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var controller = context.RouteData.Values["controller"];
@@ -20,17 +18,19 @@ namespace TrashCollection.ActionFilters
             {
                 if (_claimsPrincipal.IsInRole("Customer"))
                 {
-                    context.Result = new RedirectToActionResult("Index", "Customer", null);
+                    context.Result = new RedirectToActionResult("Index",
+                    "Customer", null);
                 }
                 else if (_claimsPrincipal.IsInRole("Employee"))
                 {
-                    context.Result = new RedirectToActionResult("Index", "Employee", null);
+                    context.Result = new RedirectToActionResult("Index",
+                    "Employee", null);
                 }
             }
         }
-
         public void OnActionExecuted(ActionExecutedContext context)
         {
+
         }
     }
 }

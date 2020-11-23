@@ -30,7 +30,7 @@ namespace TrashCollection.Controllers
                 return RedirectToAction("Create");
             }
             var applicationDbContext = _context.Customer.Include(c => c.Address).Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            return RedirectToAction("Details", new { customer.Id });
         }
 
         // GET: Customer/Details/5
@@ -172,5 +172,6 @@ namespace TrashCollection.Controllers
         {
             return _context.Customer.Any(e => e.Id == id);
         }
+
     }
 }

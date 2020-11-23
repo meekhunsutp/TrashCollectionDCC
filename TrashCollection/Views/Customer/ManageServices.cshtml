@@ -19,7 +19,6 @@
             <input type="hidden" asp-for="AddressId" />
             <input type="hidden" asp-for="FirstName" />
             <input type="hidden" asp-for="LastName" />
-            @Html.DisplayNameFor(model => model.AccountBalance)
             <div class="form-group">
                 <label asp-for="CollectionDay" class="control-label"></label><br>
                 <select asp-for="CollectionDay" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>
@@ -48,7 +47,7 @@
 </div>
 
 <div>
-    <a asp-action="Details">Back to Profile</a>
+    <a asp-action="Index">Back to Profile</a>
 </div>
 
 @section Scripts {

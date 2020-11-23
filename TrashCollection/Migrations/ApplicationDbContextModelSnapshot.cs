@@ -48,22 +48,22 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "80143ae2-7ce3-4886-bce6-c6872e32153d",
-                            ConcurrencyStamp = "52a6f990-9f40-4dc1-a480-2572c8b0b700",
+                            Id = "0778209a-0a8d-4912-934e-3d7b4f05952d",
+                            ConcurrencyStamp = "12eda4da-cc21-40b5-af63-af24aadeb153",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b795612e-7892-4b04-b784-c180594785a7",
-                            ConcurrencyStamp = "357857d7-59ac-44c5-a1e2-f8db9580f628",
+                            Id = "49315dc8-318e-4dfa-8982-0531e9cbac3e",
+                            ConcurrencyStamp = "f040d85f-d980-4dc8-b492-f0420bef0fe9",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "c50ab5bd-61bb-49ca-bfe2-ff2212bd0b03",
-                            ConcurrencyStamp = "4a06f079-1550-4dcb-9b4d-2553d8a06e71",
+                            Id = "ce9ef074-d052-4352-921b-355a8016a463",
+                            ConcurrencyStamp = "f13074c7-acd0-48ae-9706-9bd96664a266",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -291,6 +291,12 @@ namespace TrashCollection.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longtitude")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("SuspendServiceEnd")
                         .HasColumnType("datetime2");

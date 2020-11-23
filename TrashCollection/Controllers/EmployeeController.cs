@@ -25,7 +25,7 @@ namespace TrashCollection.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employee.Include(e => e.Address).Where(c => c.IdentityUserId == userId).FirstOrDefault();
-            if ( employee == null)
+            if (employee == null)
             {
                 return RedirectToAction("Create");
             }
@@ -68,10 +68,10 @@ namespace TrashCollection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
         {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                employee.IdentityUserId = userId;
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            employee.IdentityUserId = userId;
+            _context.Add(employee);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Details", new { employee.Id });
         }
 
@@ -95,9 +95,7 @@ namespace TrashCollection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Employee employee)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            employee.IdentityUserId = userId;
-            _context.Update(employee);
+            _context.Entry(employee).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return RedirectToAction("FindWork", new { employee.Id });
@@ -139,7 +137,7 @@ namespace TrashCollection.Controllers
             return _context.Employee.Any(e => e.Id == id);
         }
 
-        private List<Customer> TodaysCustomers(Employee employee, DateTime dateSelected)        
+        private List<Customer> TodaysCustomers(Employee employee, DateTime dateSelected)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             employee.IdentityUserId = userId;
@@ -160,66 +158,11 @@ namespace TrashCollection.Controllers
         }
         private static void AddToBalance(Customer customer)
         {
-            if(customer.CustomerConfirmPickUp == false)
+            if (customer.CustomerConfirmPickUp == false)
             {
                 customer.AccountBalance += 25;
                 customer.CustomerConfirmPickUp = true;
             }
         }
-        //private List<Customer> ZipCheck(Employee employee, List<Customer> customers)        //check to see if they are in workers zip code, if so add
-        //{
-        //    foreach(Customer customer in _context.Customer)
-        //    {
-        //        if (customer.Address.Zip >= employee.Address.Zip - 2 && customer.Address.Zip <= employee.Address.Zip + 2)
-        //        {
-        //            customers.Add(customer);
-        //        }
-        //    }
-        //    return customers;
-        //}
-        //private List<Customer> CollectionDayCheck(List<Customer> customers)        //check to see if customer pick up day matches today, if so add
-        //{
-        //    foreach( Customer customer in customers)
-        //    {
-        //        if( customer.CollectionDay != DateTime.Today.DayOfWeek)
-        //        {
-        //            customers.Remove(customer);
-        //        }
-        //    }
-        //    return customers;
-        //}
-        //private List<Customer> ExtraPickUpCheck(List<Customer> customers)        //check to see if customer has an extra pick up, if so add
-        //{
-        //    foreach (Customer customer in customers)
-        //    {
-        //        if (customer.ExtraPickUp?.Date == DateTime.Today)
-        //        {
-        //            customers.Add(customer);
-        //        }
-        //    }
-        //    return customers;
-        //}
-        //private List<Customer> AlreadyPickedUpCheck(List<Customer> customers)        //check to see if trash has already been picked up, if so remove
-        //{
-        //    foreach (Customer customer in customers)
-        //    {
-        //        if (customer.CustomerConfirmPickUp == true)
-        //        {
-        //            customers.Remove(customer);
-        //        }
-        //    }
-        //    return customers;
-        //}
-        //private List<Customer> SuspensionCheck(List<Customer> customers)        //check to see if customer is on pause, if so remove
-        //{
-        //    foreach(Customer customer in customers)
-        //    {
-        //        if( customer.SuspendServiceStart?.CompareTo(DateTime.Today.Date) >= 0 && customer.SuspendServiceEnd?.CompareTo(DateTime.Today.Date) <= 0)
-        //        {
-        //            customers.Remove(customer);
-        //        }
-        //    }
-        //    return customers;
-        //}
     }
 }

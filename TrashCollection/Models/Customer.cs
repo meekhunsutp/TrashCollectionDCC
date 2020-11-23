@@ -53,6 +53,7 @@ namespace TrashCollection.Models
         [Display(Name = "Pause Service End Date")]
         [DataType(DataType.Date)]
         public DateTime? SuspendServiceEnd { get; set; }
-
+        public double Longtitude { get; set; }
+        public double Latitude { get; set; }
     }
 }

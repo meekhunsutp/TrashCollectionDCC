@@ -10,7 +10,7 @@ using TrashCollection.Data;
 namespace TrashCollection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201119204712_init")]
+    [Migration("20201123023109_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,22 +50,22 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dad2bdd5-c1bb-4f7c-b688-90191cf6066b",
-                            ConcurrencyStamp = "242a17dd-9ae7-43ed-9a08-f6b1d73eb146",
+                            Id = "0778209a-0a8d-4912-934e-3d7b4f05952d",
+                            ConcurrencyStamp = "12eda4da-cc21-40b5-af63-af24aadeb153",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b618743f-f11c-41cb-beef-a2f1a938ef40",
-                            ConcurrencyStamp = "953150ac-3ec5-4472-9afe-397207a2a6d5",
+                            Id = "49315dc8-318e-4dfa-8982-0531e9cbac3e",
+                            ConcurrencyStamp = "f040d85f-d980-4dc8-b492-f0420bef0fe9",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "17752a9f-04fe-45f8-b586-763979879061",
-                            ConcurrencyStamp = "8ff28577-e1a3-4367-8004-77d9add9b1d4",
+                            Id = "ce9ef074-d052-4352-921b-355a8016a463",
+                            ConcurrencyStamp = "f13074c7-acd0-48ae-9706-9bd96664a266",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -268,7 +268,7 @@ namespace TrashCollection.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double?>("AccountBalance")
+                    b.Property<double>("AccountBalance")
                         .HasColumnType("float");
 
                     b.Property<int>("AddressId")
@@ -293,6 +293,12 @@ namespace TrashCollection.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longtitude")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("SuspendServiceEnd")
                         .HasColumnType("datetime2");
