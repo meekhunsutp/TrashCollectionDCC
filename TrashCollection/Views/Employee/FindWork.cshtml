@@ -19,9 +19,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Address.Zip)
-                </th>*@
+
             <th>
                 @Html.DisplayNameFor(model => model.CollectionDay)
             </th>
@@ -38,6 +36,15 @@
                 @Html.DisplayNameFor(model => model.AccountBalance)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Address.StreetAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.CityState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.Zip)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Latitude)
             </th>
             <th>
@@ -52,44 +59,50 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Address.Zip)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.CollectionDay)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExtraPickUp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SuspendServiceStart)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SuspendServiceEnd)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AccountBalance)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Latitude)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Longtitude)
-                </td>
-                <td>
-                    @if (DateTime.Now.Date == ViewBag.Date)
-                    {
-                        <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="ConfirmPickUp">CONFIRM PICK UP</a>
-                    }
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CollectionDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExtraPickUp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SuspendServiceStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SuspendServiceEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountBalance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.CityState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.Zip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Latitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Longtitude)
+            </td>
+            <td>
+                @if (DateTime.Now.Date == ViewBag.Date)
+                {
+                    <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="ConfirmPickUp">CONFIRM PICK UP</a>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>

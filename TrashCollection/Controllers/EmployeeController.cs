@@ -142,7 +142,7 @@ namespace TrashCollection.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             employee.IdentityUserId = userId;
-            List<Customer> TodaysCustomersList = _context.Customer.Where(c =>
+            List<Customer> TodaysCustomersList = _context.Customer.Include(c => c.Address).Where(c =>
                 c.Address.Zip == employee.Address.Zip
                 && c.CustomerConfirmPickUp == false
                 && (c.CollectionDay == dateSelected.DayOfWeek || c.ExtraPickUp == dateSelected)
