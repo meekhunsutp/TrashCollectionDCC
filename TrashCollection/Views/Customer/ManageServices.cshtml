@@ -19,6 +19,8 @@
             <input type="hidden" asp-for="AddressId" />
             <input type="hidden" asp-for="FirstName" />
             <input type="hidden" asp-for="LastName" />
+            <input type="hidden" asp-for="Latitude" />
+            <input type="hidden" asp-for="Longtitude" />
             <div class="form-group">
                 <label asp-for="CollectionDay" class="control-label"></label><br>
                 <select asp-for="CollectionDay" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>

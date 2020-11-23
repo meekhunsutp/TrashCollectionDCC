@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GoogleMaps.LocationServices;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using TrashCollection.Data;
 using TrashCollection.Models;
 
@@ -25,7 +23,7 @@ namespace TrashCollection.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customer = _context.Customer.Include(e => e.Address).Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            if(customer == null)
+            if (customer == null)
             {
                 return RedirectToAction("Create");
             }
@@ -56,7 +54,6 @@ namespace TrashCollection.Controllers
         // GET: Customer/Create
         public IActionResult Create()
         {
-
             return View();
         }
 
@@ -64,16 +61,30 @@ namespace TrashCollection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Customer customer)
         {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                customer.IdentityUserId = userId;
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("ManageServices", new { customer.Id });
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            customer.IdentityUserId = userId;
+            customer = GeoCode(customer);
+            _context.Add(customer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("ManageServices", new { customer.Id });
         }
+
         public async Task<IActionResult> ManageServices(int id)
         {
             var customer = await _context.Customer.FindAsync(id);
             return View(customer);
+        }
+
+        public Customer GeoCode(Customer customer)
+        {
+            string address = customer.Address.StreetAddress.ToString() + ", " + customer.Address.CityState.ToString() + ", " + customer.Address.Zip.ToString();
+            var geocode = new GoogleLocationService("AIzaSyCR_uKNqBSb29DBstYv3ZF9wzzViywcpS0");
+            var coords = geocode.GetLatLongFromAddress(address);
+            customer.Latitude = coords.Latitude;
+            customer.Longtitude = coords.Longitude;
+            ViewBag.Latitude = customer.Latitude;
+            ViewBag.Longtitude = customer.Longtitude;
+            return customer;
         }
 
         [HttpPost]
@@ -86,7 +97,7 @@ namespace TrashCollection.Controllers
             }
             _context.Customer.Update(customer);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", new { customer.Id });       
+            return RedirectToAction("Details", new { customer.Id });
         }
 
         // GET: Customer/Edit/5
@@ -172,6 +183,5 @@ namespace TrashCollection.Controllers
         {
             return _context.Customer.Any(e => e.Id == id);
         }
-
     }
 }

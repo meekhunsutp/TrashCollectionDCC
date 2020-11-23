@@ -7,7 +7,6 @@
 
 <h3>WORK FOR @ViewBag.DateSelected</h3>
 
-
 <p>
     <a asp-controller="Employee" asp-route-id="@ViewBag.EmployeeId" asp-action="Edit">SELECT DIFFERENT DATE HERE</a>
 </p>
@@ -37,6 +36,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AccountBalance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longtitude)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CustomerConfirmPickUp)
@@ -73,21 +78,58 @@
                     @Html.DisplayFor(modelItem => item.AccountBalance)
                 </td>
                 <td>
-                    @if(DateTime.Now.Date == ViewBag.Date)
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longtitude)
+                </td>
+                <td>
+                    @if (DateTime.Now.Date == ViewBag.Date)
                     {
-                    <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="ConfirmPickUp">CONFIRM PICK UP</a>
+                        <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="ConfirmPickUp">CONFIRM PICK UP</a>
                     }
                 </td>
-                @*<td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>*@
             </tr>
         }
     </tbody>
 </table>
+<div id="map"></div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<style>
+    #map {
+        height: 750px;
+        width: 100%;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<script defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCR_uKNqBSb29DBstYv3ZF9wzzViywcpS0&callback=initMap">
+</script>
+<script>
+    var geocoder;
+    function initMap() {
+        geocoder = new google.maps.Geocoder();
+        var location = { lat: 42.967540, lng: -87.991720 };
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: location
+        });
+        @foreach (var customer in Model)
+            {
+                <text>
+                var marker = new google.maps.Marker({
+                    position: { lat: @Html.DisplayFor(modelItem => customer.Latitude), lng: @Html.DisplayFor(modelItem => customer.Longtitude) },
+                    map: map,
+                    });
+                 </text>
+        }
+    }
+</script>
